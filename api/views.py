@@ -46,7 +46,7 @@ class FacultyList(APIView):
 @permission_classes((permissions.AllowAny,))  # This decorator to be used with APIView
 class FacultyDetail(APIView):
     """
-    Retrieve, Update or delete a faculty
+    Retrieve a faculty
     """
 
     def get_object(self,slug):
@@ -65,6 +65,9 @@ class FacultyDetail(APIView):
 # To view Departments
 
 class DepartmentList(generics.ListAPIView):
+    """
+    Retrieve deaprtments list
+    """
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
@@ -72,7 +75,7 @@ class DepartmentList(generics.ListAPIView):
 @permission_classes((permissions.AllowAny,))  # This decorator to be used with APIView
 class DepartmentDetail(APIView):
     """
-    Retrieve, Update or delete a faculty
+    Retrieve a department
     """
 
     def get_object(self,fac_slug,dep_slug):
@@ -93,7 +96,7 @@ class DepartmentDetail(APIView):
 @permission_classes((permissions.AllowAny,))  # This decorator to be used with APIView
 class UniversityEventDetail(APIView):
     """
-    Retrieve, Update or delete a faculty
+    Retrieve all events in university on a particular day
     """
 
     def get_object(self,year,month,day):
@@ -115,7 +118,7 @@ class UniversityEventDetail(APIView):
 @permission_classes((permissions.AllowAny,))  # This decorator to be used with APIView
 class FacultyEventDetail(APIView):
     """
-    Retrieve, Update or delete a faculty
+    Retrieve all events in a faculty on a particular day
     """
 
     def get_object(self,faculty,year,month,day):
@@ -137,7 +140,7 @@ class FacultyEventDetail(APIView):
 @permission_classes((permissions.AllowAny,))  # This decorator to be used with APIView
 class ExaminationList(APIView):
     """
-    Retrieve, Update or delete a faculty
+    Retrieve all examinations on a day
     """
 
     def get_object(self,year,month,day):
