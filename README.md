@@ -13,25 +13,25 @@ A sample api with Django Rest Framework.
 
 ## API Endpoints
 
-* http://127.0.0.1:8000/api/v1/calendar/<year>/<month>/<day>
+* http://127.0.0.1:8000/api/v1/calendar/(year)/(month)/(day)
 > It will return all the events, holidays and university wide events for the day.
 
-* http://127.0.0.1:8000/api/v1/calendar/<faculty>/<year>/<month>/<day>
+* http://127.0.0.1:8000/api/v1/calendar/(faculty)/(year)/(month)/(day)
 > It will return all the events, and university wide events for the particular faculty.
 
-* http://127.0.0.1:8000/api/v1/calendar/examinations/all/<year>/<month>/<day>
+* http://127.0.0.1:8000/api/v1/calendar/examinations/all/(year)/(month)/(day)
 > It will return all the available exams for the day.
 
 * http://127.0.0.1:8000/api/v1/faculty/
 > Returns data of all faculties.
 
-* http://127.0.0.1:8000/api/v1/faculty/<faculty>
+* http://127.0.0.1:8000/api/v1/faculty/(faculty)
 > Returns data of a single faculty.
 
 * http://127.0.0.1:8000/api/v1/department/
 > Returns data of all departments.
 
-* http://127.0.0.1:8000/api/v1/department/<faculty>/<department>
+* http://127.0.0.1:8000/api/v1/department/(faculty)/(department)
 > Returns data of a department.
 
 ## ToDo
