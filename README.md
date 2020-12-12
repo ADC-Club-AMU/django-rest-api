@@ -46,7 +46,10 @@ A sample api with Django Rest Framework.
 * http://127.0.0.1:8000/api/v1/calendar/holidays/(year)/(month)/
 > It will return all holidays for that particular month.
 
+* http://127.0.0.1:8000/api/v1/news/
+> This API fetches news heading and url from beta.amu.ac.in using web scraping and returns the data as json.
+
 
 ## ToDo
 * Create a Web UI for admins.
-* Create an API that returns json data after webscraping from amu.ac.in
+* Create an API that returns json data after webscraping from amu.ac.in (**Completed**)

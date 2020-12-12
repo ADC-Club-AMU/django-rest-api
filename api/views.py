@@ -12,6 +12,8 @@ from rest_framework import status
 from rest_framework.decorators import permission_classes # Djnago permission won't work with APIView
 from django.http import Http404
 from rest_framework import generics
+from bs4 import BeautifulSoup
+from django.http import JsonResponse
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
@@ -225,3 +227,43 @@ class HolidaysByYearList(APIView):
         holidays = self.get_object(year)
         serializer = HolidaySerializer(holidays,many=True)
         return Response(serializer.data)
+
+
+"""
+WebScraping News
+"""
+
+def get_html_content():
+    import requests
+    USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    LANGUAGE = "en-US,en;q=0.5"
+    session = requests.Session()
+    session.headers['User-Agent'] = USER_AGENT
+    session.headers['Accept-Language'] = LANGUAGE
+    session.headers['Content-Language'] = LANGUAGE
+    url = f'https://beta.amu.ac.in/news'
+    html_content = requests.get(url).text
+    return html_content
+
+@permission_classes((permissions.AllowAny,))
+class NewsView(APIView):
+    def get(self,request,*args,**kwargs):
+        import json
+        import re
+        html_content = get_html_content()
+        soup = BeautifulSoup(html_content, 'html.parser')
+        c = soup.findAll("div", {"class": "default-heading"})
+        response_data = []
+        base_url = "https://beta.amu.ac.in/"
+        for x in c:
+            match = re.search(r'\bh3\b',str(x))
+            if match:
+                heading = str(x).split('href="')[1].split('>')[1].split('<')[0]
+                news_url = "{}{}".format(base_url,str(x).split('href="')[1].split('"')[0])
+                date = str(x).split('href="')[1].split('class="date-admin">')[1].split('<')[0]
+                dict_data = {"heading":heading,"news_url":news_url,"date":date}
+                response_data.append(dict_data)
+        return Response(response_data)
+
+
+        

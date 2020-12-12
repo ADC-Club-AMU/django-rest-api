@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from .views import (UserViewSet,FacultyList,FacultyDetail,DepartmentList,DepartmentDetail,
                         UniversityEventDetail,FacultyEventDetail,ExaminationList,EntranceExaminationList,
-                        NoticeList,HolidaysByYearList,HolidaysByMonthList)
+                        NoticeList,HolidaysByYearList,HolidaysByMonthList,NewsView)
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -21,5 +21,6 @@ urlpatterns = [
     path('calendar/entrance/<year>/',EntranceExaminationList.as_view(),name="entrance-list"),
     path('calendar/notices/',NoticeList.as_view(),name="entrance-list"),
     path('calendar/holidays/<year>/',HolidaysByYearList.as_view(),name="holiday-year-list"),
-    path('calendar/holidays/<year>/<month>',HolidaysByMonthList.as_view(),name="holiday-month-list")
+    path('calendar/holidays/<year>/<month>',HolidaysByMonthList.as_view(),name="holiday-month-list"),
+    path('news/',NewsView.as_view(),name="news")
 ]
