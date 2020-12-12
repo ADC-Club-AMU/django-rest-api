@@ -3,8 +3,9 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 from .serializers import UserSerializer
-from .models import Faculty,Department,Event,Examination
-from .serializers import FacultySerializer,DepartmentSerializer,EventSerializer,ExaminationSerializer
+from .models import Faculty,Department,Event,Examination,EntranceExamination,Notice,Holiday
+from .serializers import (FacultySerializer,DepartmentSerializer,EventSerializer,
+                            ExaminationSerializer,EntranceExaminationSerializer,NoticeSerializer,HolidaySerializer)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -135,7 +136,7 @@ class FacultyEventDetail(APIView):
         return Response(serializer.data)
 
 
-# To view Univerity Events
+# To view Examinations in departments
 
 @permission_classes((permissions.AllowAny,))  # This decorator to be used with APIView
 class ExaminationList(APIView):
@@ -154,4 +155,73 @@ class ExaminationList(APIView):
     def get(self,request,year,month,day,format=None):
         exam = self.get_object(year,month,day)
         serializer = ExaminationSerializer(exam,many=True)
+        return Response(serializer.data)
+
+
+# To view Entrance Examination
+
+@permission_classes((permissions.AllowAny,))  # This decorator to be used with APIView
+class EntranceExaminationList(APIView):
+    """
+    Retrieve all entrance examinations in an year
+    """
+    def get_object(self,year):
+        try:
+            exam = EntranceExamination.objects.filter(year=year)
+            return exam
+        except EntranceExamination.DoesNotExist:
+            raise Http404
+
+    def get(self, request,year, format=None):
+        exam = self.get_object(year)
+        serializer = EntranceExaminationSerializer(exam, many=True)
+        return Response(serializer.data)
+
+
+@permission_classes((permissions.AllowAny,))
+class NoticeList(APIView):
+    """
+    Retrieve all notices
+    """
+    def get(self, request, format=None):
+        notice = Notice.objects.all()
+        serializer = NoticeSerializer(notice, many=True)
+        return Response(serializer.data)
+
+
+@permission_classes((permissions.AllowAny,))
+class HolidaysByMonthList(APIView):
+    """
+    Retrieve all holidays by month
+    """
+    def get_object(self,year,month):
+        try:
+            holidays = Holiday.objects.filter(year=year,month=month)
+            return holidays
+        except Holiday.DoesNotExist:
+            raise Http404
+
+    def get(self,request,year,month,format=None):
+        holidays = self.get_object(year,month)
+        serializer = HolidaySerializer(holidays,many=True)
+        return Response(serializer.data)
+
+
+@permission_classes((permissions.AllowAny,))
+class HolidaysByYearList(APIView):
+    """
+    Retrieve all holidays by year
+    """
+    import json
+
+    def get_object(self,year):
+        try:
+            holidays = Holiday.objects.filter(year=year)
+            return holidays
+        except Holiday.DoesNotExist:
+            raise Http404
+
+    def get(self,request,year,format=None):
+        holidays = self.get_object(year)
+        serializer = HolidaySerializer(holidays,many=True)
         return Response(serializer.data)
