@@ -1,0 +1,1 @@
+web: gunicorn amuupdates.wsgi:application --log-file -
