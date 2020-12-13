@@ -6,6 +6,7 @@ chardet==3.0.4
 Django==3.1.4
 django-filter==2.4.0
 djangorestframework==3.12.2
+gunicorn==20.0.4
 idna==2.10
 importlib-metadata==3.1.1
 isort==5.6.4
@@ -22,5 +23,6 @@ sqlparse==0.4.1
 toml==0.10.2
 typed-ast==1.4.1
 urllib3==1.26.2
+whitenoise==5.2.0
 wrapt==1.12.1
 zipp==3.4.0
